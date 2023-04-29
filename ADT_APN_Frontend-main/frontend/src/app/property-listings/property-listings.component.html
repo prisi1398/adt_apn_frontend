@@ -1,0 +1,221 @@
+<div class="container-fluid ">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #a7beae;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <i class="bi bi-house" style='font-size:42px;'></i>
+        <a class="navbar-brand page-name" href="#">Look-Inn</a>
+
+        <div class="navbar-row">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex">
+                <li class="nav-item">
+                    <a class="nav-link"  active href="#">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a  class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a *ngIf="admin == true" class="nav-link" href="#"  data-bs-toggle="modal" data-bs-target="#addModal"> <i class="bi bi-plus"></i> </a></li>
+            </ul>
+        </div>
+    </nav>
+  <div class="accordion listings-accordion" id="accordionComp">
+    <div *ngFor="let listing of listings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)"
+      class="accordion-item">
+      <div class="item-header" id="headingOne">
+        <h2 class="accordion-header" id="heading{{listing.id}}">
+          <button class="btn btn-link" type="button" data-toggle="collapse"
+              data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+              (click)="getListingsDetails(listing.id)" data-bs-toggle='modal' data-bs-target="#detailsModal">
+                      {{listing.name}}
+            <i class="fa fa-angle-down"></i>
+          </button>
+        </h2>
+      </div>
+    </div>
+  </div>
+
+<div class="pagination">
+  <button class="btn btn-link" [disabled]="currentPage == 1" (click)="currentPage = currentPage - 1">Previous</button>
+  <button class="btn btn-link" [disabled]="currentPage == totalPages"
+    (click)="currentPage = currentPage + 1">Next</button>
+</div>
+
+<div class="modal fade adminModal" tabindex="-1" id="adminModal"  aria-hidden="true" role="dialog" aria-labelledby="adminModal" >
+  <div class="modal-dialog modal-lg  modal-dialog-centered ">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="adminModal">Admin Login</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="loginForm" novalidate>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="email" name="email">Email address</label>
+                  <input type="email" id="email" formControlName="email" class="form-control" />
+                </div>
+            
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="password" name="password">Password</label>
+                  <input type="password" id="password" formControlName="password" class="form-control" />
+                </div>
+            
+                <!-- Submit button -->
+                <button type="button" (click)="authorizeAdmin()" class="btn btn-primary btn-block mb-4" data-bs-dismiss="modal">Sign In</button>
+                <br>
+                <span *ngIf="adminError == 'true'" class="error text-danger">Invalid Credentials !</span>
+                <div *ngIf="adminError == 'false' && admin == true" data-bs-dismiss="modal"></div> 
+              </form>
+            </div>
+            
+      </div>
+  </div>
+</div>
+
+<div class="modal fade addModal" tabindex="-1" id="addModal"  aria-hidden="true" role="dialog" aria-labelledby="addModal" >
+    <div class="modal-dialog modal-lg  modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModal">Add Listing</h5>
+                <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addListing" class="row g-3 needs-validation" novalidate>
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" formControlName="listing_name" class="form-control" id="listing_name" name="listing_name" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="longitude" class="form-label">Longitude</label>
+                      <input type="text" formControlName="longitude" class="form-control" id="longitude" name="longitude">
+                    </div>
+                    <div class="mb-3">
+                      <label for="latitude" class="form-label">Latitude</label>
+                      <input type="text" formControlName="latitude" class="form-control" id="latitude" name="latitude">
+                    </div>
+                    <div class="mb-3">
+                      <label for="city" class="form-label">City</label>
+                      <input type="text" formControlName="city" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="neighbourhood" class="form-label">Neighbourhood</label>
+                      <input type="text" formControlName="neighbourhood" class="form-control" id="neighbourhood" name="neighbourhood">
+                    </div>
+                    <div class="mb-3">
+                      <label for="listing_id" class="form-label">Listing ID</label>
+                      <input type="text" formControlName="listing_id" class="form-control" id="listing_id" name="listing_id" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="score_rating" class="form-label">Score Rating</label>
+                      <input type="text" formControlName="score_rating" class="form-control" id="score_rating" name="score_rating" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="score_value" class="form-label">Score Value</label>
+                      <input type="text" formControlName="score_value" class="form-control" id="score_value" name="score_value" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="property_type" class="form-label">Property Type</label>
+                      <input type="text" formControlName="property_type" class="form-control" id="property_type" name="property_type" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="room_type" class="form-label">Room Type</label>
+                      <input type="text" formControlName="room_type" class="form-control" id="room_type" name="room_type" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="accomodate_count" class="form-label">Accommodate Count</label>
+                      <input type="text" formControlName="accomodate_count" class="form-control" id="accomodate_count" name="accomodate_count" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="bedrooms" class="form-label">Bedrooms</label>
+                      <input type="text" formControlName="bedrooms" class="form-control" id="bedrooms" name="bedrooms" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="price" class="form-label">Price</label>
+                      <input type="text" formControlName="price" class="form-control" id="price" name="price" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="instant_bookable"  class="form-check-label">Instant Bookable</label>
+                      <input class="form-check-input" type="checkbox"  formControlName="instant_bookable"  id="instant_bookable" name="instant_bookable" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="amenities" class="form-label">Amenities</label>
+                      <input type="text" formControlName="amenities" class="form-control" id="amenities" name="amenities" required placeholder="['Kitchen', 'Bath', 'patio', etc]"></div>
+                      <button type="button" (click)="addNewListing()" class="btn btn-primary btn-block mb-4" data-bs-dismiss="modal" >Add Listing</button>
+                    </form>
+                  
+              </div>
+              
+        </div>
+    </div>
+</div>
+  <div  class="modal fade detailsModal" tabindex="-1" id="detailsModal" role="dialog" aria-labelledby="detailsModal" >
+    <div class="modal-dialog modal-lg  modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModal">Details of the Listings</h5>
+                <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+            </div>
+            <div class="modal-body">
+                  <div class="container">
+                    <form *ngIf="displayDetails == true">
+                      <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                          <input type="text" [readonly]="admin == false"  class="form-control" id="name" [(ngModel)]="listingDetails.name" name="name">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="neighbourhood" class="col-sm-2 col-form-label">Neighbourhood:</label>
+                        <div class="col-sm-10">
+                          <input type="text" [readonly]="admin == false"  class="form-control" id="neighbourhood" [(ngModel)]="listingDetails.neighbourhood" name="neighbourhood">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="price" class="col-sm-2 col-form-label">Price:</label>
+                        <div class="col-sm-10">
+                          <input type="text" [readonly]="admin == false"  class="form-control" id="price" [(ngModel)]="listingDetails.price" name="price">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="bedrooms" class="col-sm-2 col-form-label">Bedrooms:</label>
+                        <div class="col-sm-10">
+                          <input type="text" [readonly]="admin == false"  class="form-control" id="bedrooms" [(ngModel)]="listingDetails.bedrooms" name="bedrooms">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="accomodate_count" class="col-sm-2 col-form-label">Accomodate Count:</label>
+                        <div class="col-sm-10">
+                          <input type="text" [readonly]="admin == false"  class="form-control" id="accomodate_count" [(ngModel)]="listingDetails.accomodate_count" name="accomodate_count">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="rating" class="col-sm-2 col-form-label">Rating:</label>
+                        <div class="col-sm-10">
+                          <input type="text" [readonly]="admin == false"  class="form-control" id="rating" [(ngModel)]="listingDetails.rating" name="rating">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="amenities" class="col-sm-2 col-form-label">Amenities:</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" [readonly]="admin == false"  id="amenities" [(ngModel)]="listingDetails.amenities" name="amenities"></textarea>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" *ngIf="admin == true" (click)="updateListingDetails()" data-bs-dismiss="modal">
+                  Save
+              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Close
+              </button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+  

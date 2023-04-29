@@ -1,0 +1,61 @@
+<div class="container-fluid ">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #a7beae;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <i class="bi bi-house" style='font-size:42px;'></i>
+        <a class="navbar-brand page-name" href="#">Look-Inn</a>
+
+        <div class="navbar-row">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 d-flex">
+                <li class="nav-item">
+                    <a class="nav-link"  active href="#">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal" >Contact Us</a>
+                </li>
+            
+            </ul>
+        </div>
+    </nav>
+    <div class="body">
+    <div class="col-lg-3 text-center bg-secondary" style="background-color: #111111;" style="height:80px;width:100vw"></div>
+    <div class="text-center">
+        <button class="btn btn-primary listings-button " (click)="routeToLocations()" > View Listings </button>
+    </div>
+    <div class="modal fade contactModal" tabindex="-1" id="contactModal"  aria-hidden="true" role="dialog" aria-labelledby="contactModal" >
+        <div class="modal-dialog modal-lg  modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModal">Admin Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="contactForm" novalidate>
+                        <div class="form-outline mb-4">
+                            <label for="Email">Email</label>
+                            <input type="email" class="form-control" name="Email" aria-describedby="emailHelp" placeholder="Enter email"
+                                formControlName="email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" class="form-control" name="Fullname" placeholder="Full Name" formControlName="fullname">
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label for="comment">Comment</label>
+                            <textarea class="form-control" formControlName="comment" name="Comment">
+                                            </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
